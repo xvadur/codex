@@ -1,0 +1,17 @@
+{
+  "notion": {
+    "daily_db_id_env": "NOTION_DAILY_DB_ID",
+    "date_property": "Date",
+    "title_property": "Name",
+    "mood_property": "Mood",
+    "energy_property": "Energy",
+    "tags_property": "Tags",
+    "privacy_property": "Privacy"
+  },
+  "render": {
+    "default_privacy": "public",
+    "default_tags": [],
+    "include_raw_notion_text": true
+  }
+}
+

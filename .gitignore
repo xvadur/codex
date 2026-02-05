@@ -14,3 +14,6 @@ dist/
 build/
 *.log
 
+# generated data/reports (keep tracked; remove these lines if you want them committed)
+# data/
+# reports/
