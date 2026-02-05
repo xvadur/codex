@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# local/private content (never commit)
+life/private/
+
+# env/secrets
+.env
+.env.*
+
+# runtime artifacts
+tmp/
+dist/
+build/
+*.log
+

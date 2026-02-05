@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cmd="${1:-}"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  ./bin/codex new            Create today's daily entry from template
+  ./bin/codex new YYYY-MM-DD Create a daily entry for a specific date
+EOF
+}
+
+ensure_repo_root() {
+  if [[ ! -f "README.md" || ! -d ".git" ]]; then
+    echo "error: run from repo root" >&2
+    exit 1
+  fi
+}
+
+new_entry() {
+  local date_arg="${1:-}"
+  local date
+  if [[ -n "$date_arg" ]]; then
+    date="$date_arg"
+  else
+    # macOS + GNU date compatible fallback
+    if date -u +"%Y-%m-%d" >/dev/null 2>&1; then
+      date="$(date +"%Y-%m-%d")"
+    else
+      python3 - <<'PY'
+import datetime
+print(datetime.date.today().isoformat())
+PY
+    fi
+  fi
+
+  local yyyy mm
+  yyyy="${date:0:4}"
+  mm="${date:5:2}"
+
+  local out_dir="life/${yyyy}"
+  local out_file="${out_dir}/${date}.md"
+  local tmpl="life/templates/daily.md"
+
+  mkdir -p "$out_dir"
+
+  if [[ -f "$out_file" ]]; then
+    echo "$out_file"
+    exit 0
+  fi
+
+  if [[ ! -f "$tmpl" ]]; then
+    echo "error: missing template: $tmpl" >&2
+    exit 1
+  fi
+
+  # Simple template expansion.
+  sed "s/{{DATE}}/${date}/g" "$tmpl" >"$out_file"
+  echo "$out_file"
+}
+
+ensure_repo_root
+
+case "$cmd" in
+  new)
+    shift || true
+    new_entry "${1:-}"
+    ;;
+  ""|-h|--help|help)
+    usage
+    ;;
+  *)
+    echo "error: unknown command: $cmd" >&2
+    usage >&2
+    exit 2
+    ;;
+esac
+
