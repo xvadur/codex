@@ -4,9 +4,9 @@ This repository is a personal "life log runtime". The default output is plain te
 
 ## Core Principles
 
-- Privacy first: do not store secrets, passwords, tokens, private keys, raw IDs, or anything that would enable account takeover.
-- Avoid doxxing: do not publish full home addresses, exact real-time locations, bank details, government IDs, or medical identifiers.
-- Prefer summaries over raw dumps: when ingesting content (chat logs, exports, emails), summarize and redact.
+- Personal is allowed: relationship/sex/money topics are allowed; treat them neutrally and pragmatically.
+- Security is non-negotiable: never store secrets, passwords, tokens, private keys, raw IDs, or anything that would enable account takeover.
+- Prefer summaries over raw dumps: when ingesting content (chat logs, exports, emails), summarize and extract structure.
 - Every change should be reversible: prefer additive commits; avoid destructive git operations.
 
 ## Collaboration Workflow
@@ -42,7 +42,7 @@ This repository is a personal "life log runtime". The default output is plain te
 
 ## Redaction Policy
 
-When writing public entries, replace sensitive strings with bracketed placeholders:
+If/when you decide to publish a redacted artifact, replace sensitive strings with bracketed placeholders:
 
 - Names: `[PERSON: first-name]` or `[PERSON]` if uncertain
 - Addresses: `[ADDRESS]`
@@ -50,5 +50,4 @@ When writing public entries, replace sensitive strings with bracketed placeholde
 - Accounts: `[ACCOUNT]`, `[TOKEN]`, `[SECRET]`
 - Exact location: use city/region only; if needed: `[LOCATION: approximate]`
 
-If the user asks to store something sensitive, create it under `life/private/` and ensure it stays ignored by git.
-
+If the user asks to store credentials/secrets, keep them out of git entirely (use `.env`, OS keychain, or the Codex auth store).
